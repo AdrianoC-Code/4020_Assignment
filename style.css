@@ -1,0 +1,51 @@
+/* ----------------------------------------------------
+   Primary Neutrals:
+   -- White:        #FFFFFF
+   -- Off-White:    #F5F5F5
+   -- Light Grey:   #E0E0E0
+   -- Mid Grey:     #7A7A7A   (body text)
+   -- Almost Black: #1A1A1A   (headers, strong text)
+   Accent:
+   -- Royal Blue:   #2D6CDF
+----------------------------------------------------- */
+
+
+
+body {
+    background-color:#FFFFFF;
+ }
+
+.header {
+    position: relative;
+    background-color: #F5F5F5;
+    padding: 30px;
+    text-align: center;
+    color: #1A1A1A;
+    font-family: Verdana, sans-serif;    
+  }
+
+  .topnav {
+    color:white;
+    font-family: Verdana, sans-serif;    
+  }
+  
+  .topnav a {
+    float: center; 
+    color: #1A1A1A;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    text-decoration: none;
+  }
+  
+  .topnav a:hover {
+    background-color: #E0E0E0;
+    color: #1A1A1A;
+  }
+  
+  .footer {
+    background-color:#1A1A1A ;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
