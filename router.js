@@ -9,6 +9,58 @@ const routeToFile = {
   '/contact': 'contact.html',
   '/login': 'login.html'
 };
+//Set up per-route logic after the HTML has been loaded into #content
+function initRoute(route){
+
+  if (route === '/home') {
+    const form = document.getElementById('add-form');
+    const inputA = document.getElementById('input-a');
+    const inputB = document.getElementById('input-b');
+    const resultEl = document.getElementById('add-result');
+
+    if (form && inputA && inputB && resultEl) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const aValue = inputA.value.trim();
+        const bValue = inputB.value.trim();
+
+        //Basic frontend validation
+        if (aValue === '' || bValue === '') {
+          resultEl.textContent = 'Please enter both numbers.';
+          resultEl.classList.add('error');
+          return;
+        }
+
+        try {
+          const params = new URLSearchParams({
+            a: aValue,
+            b: bValue
+          });
+
+          const response = await fetch(`/api/add?a=${aValue}&b=${bValue}`);
+          const data = await response.json();
+
+           if (!response.ok) {
+            //Backend responded with an error (400)
+            resultEl.textContent = data.error || 'An error occurred.';
+            resultEl.classList.add('error');
+          } else {
+            resultEl.textContent = `Result: ${data.result}`;
+            resultEl.classList.remove('error');
+          }
+        } catch (err) {
+          console.error(err);
+          resultEl.textContent = 'Network error, please try again.';
+          resultEl.classList.add('error');
+        }
+      });
+    }
+
+  }
+}
+
+
 
 
 async function renderRoute() {
@@ -29,6 +81,9 @@ async function renderRoute() {
     const response = await fetch(`views/${fileName}`);
     const html = await response.text();
     content.innerHTML = html;
+
+     // After the HTML is in the DOM, initialize any route-specific JS behavior
+    initRoute(route);
   } catch (err) {
     console.error(err);
     content.innerHTML = '<h2>Error loading page</h2>';
