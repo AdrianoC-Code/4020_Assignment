@@ -144,6 +144,7 @@
     "whatwg-url": "^5.0.0",
     "wide-align": "^1.1.5",
     "wrappy": "^1.0.2",
+    "ws": "^8.18.3",
     "yallist": "^4.0.0"
   },
   "scripts": {

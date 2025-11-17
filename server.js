@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const http = require('http');
+const WebSocket = require('ws');
 
 const app = express();
 
@@ -41,6 +43,36 @@ app.get('/api/add', (req,res) =>{
     return res.json({ result });
 
 });
-app.listen(3000, () => {
-    console.log('Server running at http://localhost:3000');
+
+// Create HTTP server from Express app
+const server = http.createServer(app);
+
+// Attach WebSocket server to the same HTTP server
+const wss = new WebSocket.Server({ server });
+
+// Handle WebSocket connections
+wss.on('connection', (ws) => {
+    console.log('New WebSocket client connected');
+
+    // Send a welcome message to the client
+    ws.send('Server: WebSocket connection established');
+
+    // When the server receives a message from the client
+    ws.on('message', (message) => {
+        const text = message.toString();
+        console.log('Received from client:', text);
+
+        // Echo it back with a prefix
+        ws.send('Server echo: ' + text);
+    });
+
+    ws.on('close', () => {
+        console.log('WebSocket client disconnected');
+    });
+});
+
+// Start both HTTP + WebSocket on port 3000
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Server with WebSocket running at http://localhost:${PORT}`);
 });
