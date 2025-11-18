@@ -58,6 +58,15 @@ function initRoute(route){
     }
 
   }
+   // ----- /contact route behavior -----
+  if (route === '/contact') {
+    console.log("initRoute('/contact') running");
+    if (window.initWSChat) {
+      window.initWSChat();
+    } else {
+      console.warn("initWSChat is not defined on window");
+    }
+  }
 }
 
 
