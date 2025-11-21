@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'main.html'));
 });
 
 //API middleware route /api/add?a=2&b=3
