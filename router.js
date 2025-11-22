@@ -5,6 +5,7 @@ const routeToFile = {
   '/home': 'home.html',
   '/about': 'about_us.html',
   '/evaluation': 'evaluation.html',
+  '/contact': 'contact.html',
   '/results': 'results.html'
 };
 //Set up per-route logic after the HTML has been loaded into #content
