@@ -4,10 +4,8 @@
 const routeToFile = {
   '/home': 'home.html',
   '/about': 'about_us.html',
-  '/deals': 'deals.html',
-  '/locations': 'locations.html',
-  '/contact': 'contact.html',
-  '/login': 'login.html'
+  '/evaluation': 'evaluation.html',
+  '/results': 'results.html'
 };
 //Set up per-route logic after the HTML has been loaded into #content
 function initRoute(route){

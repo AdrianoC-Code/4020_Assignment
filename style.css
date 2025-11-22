@@ -86,3 +86,60 @@ body {
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+.profiles {
+    max-width: 900px;       
+    margin: 50px auto;      
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* subtle shadow for depth */
+}
+
+
+.profiles p {
+    line-height: 1.6;
+    font-size: 16px;
+    margin-bottom: 30px;  
+}
+
+.profile-card:hover {
+    background-color: #f0f4f8;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.intro-page section {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 8000px;
+}
+
+.intro-page p {
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.research-page {
+    padding: 20px;
+    max-width: 8000px;
+    margin: 20px auto;
+}
+
+.results-page {
+    padding: 20px;
+    max-width: 8000px;
+    margin: 20px auto;
+}
+
+.results-page canvas {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    height: 300px;
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
