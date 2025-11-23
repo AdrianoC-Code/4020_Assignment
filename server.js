@@ -3,6 +3,24 @@ const path = require('path');
 const cors = require('cors');
 const http = require('http');
 const WebSocket = require('ws');
+const { MongoClient } = require('mongodb');
+
+
+// ==== MongoDB Atlas setup ====
+const dbURI = 'mongodb+srv://adricelluc_db_user:THISISNOTMYPASSWORD@4020cluster.tcfhk0l.mongodb.net/ChatGPT_Evaluation?appName=4020Cluster';
+
+const client = new MongoClient(dbURI);
+let db;
+
+async function connectDB() {
+    if (!db) {
+        await client.connect();
+        db = client.db(); // uses the DB name from the URI (ChatGPT_Evaluation)
+        console.log("Connected to MongoDB Atlas");
+    }
+    return db;
+}
+
 
 const app = express();
 
@@ -43,6 +61,23 @@ app.get('/api/add', (req,res) =>{
     return res.json({ result });
 
 });
+
+// Test route to verify MongoDB connection
+app.get('/api/test-db', async (req, res) => {
+    try {
+        const db = await connectDB();
+        const collections = await db.listCollections().toArray();
+
+        res.json({
+            ok: true,
+            collections: collections.map(c => c.name),
+        });
+    } catch (err) {
+        console.error('Error connecting to MongoDB:', err);
+        res.status(500).json({ ok: false, error: 'DB test failed' });
+    }
+});
+
 
 // Create HTTP server from Express app
 const server = http.createServer(app);
