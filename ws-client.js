@@ -41,7 +41,33 @@ function initWSChat() {
     // When server sends a message
     socket.addEventListener("message", (event) => {
       console.log("Message from server:", event.data);
-      addMessage(event.data, "server");
+
+      const raw = event.data;
+
+      // Try to interpret it as JSON first (for progress/done/error)
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        // Not JSON → it's just normal chat / status text
+        addMessage(raw, "server");
+        return;
+      }
+
+      // It WAS valid JSON: handle structured messages
+      if (parsed.type === "progress") {
+        const msg = `Progress: ${parsed.current} / ${parsed.total} questions evaluated`;
+        addMessage(msg, "server");
+      } else if (parsed.type === "done") {
+        const msg = `Evaluation complete for domain: ${parsed.domain}`;
+        addMessage(msg, "server");
+      } else if (parsed.type === "error") {
+        const msg = `Error: ${parsed.message}`;
+        addMessage(msg, "server");
+      } else {
+        // Unknown JSON format → just dump it as a string
+        addMessage(JSON.stringify(parsed), "server");
+      }
     });
 
     socket.addEventListener("close", () => {
@@ -55,7 +81,7 @@ function initWSChat() {
     });
   }
 
-  // 4. Send handler
+  // 4. Send handler (chat)
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
@@ -68,7 +94,7 @@ function initWSChat() {
     // Add your own message to screen
     addMessage(text, "you");
 
-    // Send to server
+    // Send to server as PLAIN TEXT (chat)
     socket.send(text);
 
     input.value = "";
@@ -81,7 +107,7 @@ function initWSChat() {
     sendMessage();
   });
 
-  // 6. (Optional) Allow pressing Enter instead of clicking "Send"
+  // 6. Allow pressing Enter instead of clicking "Send"
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -92,3 +118,19 @@ function initWSChat() {
 
 // Expose initWSChat globally so router.js can call it
 window.initWSChat = initWSChat;
+
+// ===== NEW: function to start evaluation over WebSocket =====
+function startEvaluation(domain) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    console.error("Cannot start evaluation: WebSocket not open.");
+    alert("WebSocket is not open yet. Go to the Contact page first to establish the connection.");
+    return;
+  }
+
+  const msg = { type: "evaluate", domain };
+  console.log("Sending evaluation request:", msg);
+  socket.send(JSON.stringify(msg));
+}
+
+// Make it callable from HTML / console
+window.startEvaluation = startEvaluation;
