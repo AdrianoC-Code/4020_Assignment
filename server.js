@@ -7,10 +7,10 @@ const { MongoClient, ObjectId } = require('mongodb');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: "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"});
+  apiKey: "sk"});
 
 // ==== MongoDB Atlas setup ====
-const dbURI = 'mongodb+srv://adricelluc_db_user:HTeuHZga9YAB3tMB@4020cluster.tcfhk0l.mongodb.net/ChatGPT_Evaluation?appName=4020Cluster';
+const dbURI = 'mongodb+srv://adricelluc';
 const client = new MongoClient(dbURI);
 let db;
 
