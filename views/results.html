@@ -3,14 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Website Prototype</title>
+    
+
+
     <link rel="stylesheet" href="style.css">
 </head>
     <div class="results-page">
-        <h2>Results</h2>
-        <p>Charts for accuracy and response time will appear here.</p>
+        <h2>Evaluation Results</h2>
+        
+    <div id="results-error" class="error-message" style="display:none;"></div>
+     
+    <section class="results-summary">
+        <div class="summary-card">
+         <h3>Overall Accuracy</h3>
+            <p id="summary-overall-accuracy">–</p>
+        </div>
 
-        <!-- Chart placeholders -->
-        <canvas id="accuracyChart"></canvas>
-        <canvas id="responseTimeChart"></canvas>
+        <div class="summary-card">
+        <h3>Avg Response Time</h3>
+            <p id="summary-overall-response-time">–</p>
+        </div>
+
+        <div class="summary-card">
+        <h3>Total Questions</h3>
+            <p id="summary-total-questions">–</p>
+        </div>
+    </section>
+
+    <section class="results-charts">
+    <h3>Accuracy by Domain</h3>
+    <canvas id="accuracyChart"></canvas>
+
+    <h3>Response Time by Domain</h3>
+    <canvas id="responseTimeChart"></canvas>
+    </section>
+
+        
+   
+
     </div>
 </html>

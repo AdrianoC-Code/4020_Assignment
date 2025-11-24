@@ -66,7 +66,18 @@ function initRoute(route){
       console.warn("initWSChat is not defined on window");
     }
   }
+
+  // ----- /results route behavior -----
+if (route === '/results') {
+  console.log("initRoute('/results') running");
+  if (window.initResultsPage) {
+    window.initResultsPage();
+  } else {
+    console.warn("initResultsPage is not defined on window");
+  }
 }
+}
+
 
 
 
