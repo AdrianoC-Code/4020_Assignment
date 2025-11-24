@@ -7,7 +7,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: "sk"});
+  apiKey: ""});
 
 // ==== MongoDB Atlas setup ====
 const dbURI = 'mongodb+srv://adricelluc';
