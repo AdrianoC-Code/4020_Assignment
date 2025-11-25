@@ -8,7 +8,7 @@ body {
 
 /* Header */
 .header {
-    background-color: #E31837; /* York Red */
+    background: linear-gradient(180deg, #E31837 0%, #AF0D1A 100%);
     color: #FFFFFF;
     text-align: center;
     padding: 40px 20px;
