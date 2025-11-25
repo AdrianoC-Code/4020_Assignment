@@ -69,8 +69,6 @@ body {
     border-top: 1px solid #D6CFCA; /* subtle separation from page content */
 }
 
-
-
 /* Assistant Box */
 #assistant-box {
     position: fixed;
@@ -89,7 +87,7 @@ body {
 #assistant-avatar {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 30%;
 }
 
 #assistant-text {
