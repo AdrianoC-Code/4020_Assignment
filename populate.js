@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const csvParser = require('csv-parser');
 
 // MongoDB Atlas connection
-const dbURI = 'mongodb+srv://adricelluc_db_user:HTeuHZga9YAB3tMB@4020cluster.tcfhk0l.mongodb.net/ChatGPT_Evaluation?appName=4020Cluster';
+const dbURI = '';
 const client = new MongoClient(dbURI);
 
 // Map collection names to CSV files

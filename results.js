@@ -1,48 +1,70 @@
 const RESULTS_API_URL = '/api/results';
 
-
-
-// ---------- Main loader ----------
+// ---------- Entry point (called from router.js) ----------
 async function loadResults() {
+  const errorEl = document.getElementById('results-error');
 
-    const errorEl = document.getElementById('results-error');
-
-    try {
-        
-        const response = await fetch(RESULTS_API_URL);
-
-        if (!response.ok) {
-            throw new Error(`Server responded with ${response.status}`);
-        }
-
-        const data = await response.json();
-
-    
-    
-    //Draw charts
-    renderAccuracyChart(data);
-    renderResponseTimeChart(data);
-
-    //fill summary cards/ dashboard
-    renderSummaryDashboard(data);
-
-    if (errorEl){
-        errorEl.textContent = '';
-        errorEl.style.display ='none';
+  try {
+    const response = await fetch(RESULTS_API_URL);
+    if (!response.ok) {
+      throw new Error(`Server responded with ${response.status}`);
     }
 
-    
+    const raw = await response.json();
+    // raw is an object like:
+    // {
+    //   "Computer_Security": {...},
+    //   "History": {...},
+    //   "Social_Science": {...}
+    // }
 
-} catch (err) {
-        console.error('Failed to load /api/results:', err);
-        if (errorEl) {
-            errorEl.textContent = 
-            'Unable to load evaluation results. lease try again later.';
-            errorEl.style.display = 'block';
-        }
+    const domains = Object.keys(raw);
+
+    const accuracyPercent = domains.map((d) =>
+      (raw[d] && typeof raw[d].accuracyPercent === 'number') ? raw[d].accuracyPercent : 0
+    );
+
+    const responseTimes = domains.map((d) =>
+      (raw[d] && typeof raw[d].avgResponseTimeMs === 'number') ? raw[d].avgResponseTimeMs : 0
+    );
+
+    const totalQuestionsPerDomain = domains.map((d) =>
+      (raw[d] && typeof raw[d].total === 'number') ? raw[d].total : 0
+    );
+
+    const viewModel = {
+      domains,
+      accuracy: accuracyPercent,
+      avgResponseTimeMs: responseTimes,
+      totalQuestionsPerDomain
+    };
+
+    // Draw charts
+    renderAccuracyChart(viewModel);
+    renderResponseTimeChart(viewModel);
+
+    // Fill summary cards / dashboard
+    renderSummaryDashboard(viewModel);
+
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.style.display = 'none';
     }
-
+  } catch (err) {
+    console.error('Failed to load /api/results:', err);
+    if (errorEl) {
+      errorEl.textContent =
+        'Unable to load evaluation results. Please try again later.';
+      errorEl.style.display = 'block';
+    }
+  }
 }
+
+// Expose init function to router.js
+window.initResultsPage = function () {
+  loadResults();
+};
+
 // ---------- Helpers ----------
 
 // Normalize accuracy array: supports both [0.8, 0.9] and [80, 90]
@@ -51,7 +73,6 @@ function normalizeAccuracyToPercent(accuracyArray) {
     return [];
   }
 
-  // If it looks like 0–1 range, convert to %
   const maxVal = Math.max(...accuracyArray);
   if (maxVal <= 1) {
     return accuracyArray.map((v) => v * 100);
@@ -68,29 +89,28 @@ function average(arr) {
 // ---------- Charts ----------
 
 function renderAccuracyChart(data) {
-    const canvas = document.getElementById('accuracyChart');
-    if (!canvas) return;
+  const canvas = document.getElementById('accuracyChart');
+  if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
 
-    const domains = data.domains || [];
-    const accuracyPercent = normalizeAccuracyToPercent(data.accuracy || []);
+  const domains = data.domains || [];
+  const accuracyPercent = normalizeAccuracyToPercent(data.accuracy || []);
 
-    new Chart(ctx, {
-        type : 'bar',
-        data : {
-            labels: domains,
-            datasets: [
-                {
-                label: 'Accuracy (%)',
-                data: accuracyPercent,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderWidth : 1
-
-            }
-        ]
-        },
-          options: {
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: domains,
+      datasets: [
+        {
+          label: 'Accuracy (%)',
+          data: accuracyPercent,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
       responsive: true,
       scales: {
         y: {
@@ -113,37 +133,34 @@ function renderAccuracyChart(data) {
         }
       }
     }
-
-    });
+  });
 }
 
-function renderResponseTimeChart(data){
-    const canvas = document.getElementById('responseTimeChart');
-    if (!canvas) return;
+function renderResponseTimeChart(data) {
+  const canvas = document.getElementById('responseTimeChart');
+  if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    
-    const domains = data.domains || [];
-    const responseTimes = data.avgResponseTimeMs || [];
+  const ctx = canvas.getContext('2d');
 
-    new Chart(ctx, {
-        type : 'line',
-        data: {
-            labels: domains,
-            datasets: [
-                {
-                label: 'Avg Response Time (ms)',
-                data: data.avgResponseTimeMs,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: false,
-                tension: 0.2
+  const domains = data.domains || [];
+  const responseTimes = data.avgResponseTimeMs || [];
 
-            }
-        ]
-        },
-
-         options: {
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: domains,
+      datasets: [
+        {
+          label: 'Avg Response Time (ms)',
+          data: responseTimes,
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.2
+        }
+      ]
+    },
+    options: {
       responsive: true,
       scales: {
         y: {
@@ -160,8 +177,7 @@ function renderResponseTimeChart(data){
         }
       }
     }
-
-    });
+  });
 }
 
 // ---------- Summary dashboard ----------
@@ -172,18 +188,12 @@ function renderSummaryDashboard(data) {
   const responseTimes = data.avgResponseTimeMs || [];
   const questionsPerDomain = data.totalQuestionsPerDomain || [];
 
-  // Overall accuracy = simple average of domain accuracies
   const overallAccuracy = average(accuracyPercent);
-
-  // Overall response time = simple average of per-domain averages
   const overallResponseTime = average(responseTimes);
-
-  // Total questions (if provided)
   const totalQuestions = Array.isArray(questionsPerDomain)
     ? questionsPerDomain.reduce((sum, n) => sum + n, 0)
     : null;
 
-  // Fill summary elements if they exist in HTML
   const overallAccEl = document.getElementById('summary-overall-accuracy');
   const overallTimeEl = document.getElementById('summary-overall-response-time');
   const totalQuestionsEl = document.getElementById('summary-total-questions');
@@ -197,17 +207,7 @@ function renderSummaryDashboard(data) {
   }
 
   if (totalQuestionsEl) {
-    if (totalQuestions !== null) {
-      totalQuestionsEl.textContent = `${totalQuestions}`;
-    } else {
-      totalQuestionsEl.textContent = 'N/A';
-    }
+    totalQuestionsEl.textContent =
+      totalQuestions !== null ? `${totalQuestions}` : 'N/A';
   }
 }
-
-
-// Expose an init function so router.js can call it
-window.initResultsPage = function () {
-  loadResults();
-};
-loadResults();
