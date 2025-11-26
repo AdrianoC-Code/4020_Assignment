@@ -1,10 +1,11 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
 const csvParser = require('csv-parser');
 
 // MongoDB Atlas connection
-const dbURI = '';
+const dbURI = process.env.MONGO_URI;
 const client = new MongoClient(dbURI);
 
 // Map collection names to CSV files

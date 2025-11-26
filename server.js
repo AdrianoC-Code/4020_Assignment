@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -7,10 +8,11 @@ const { MongoClient, ObjectId } = require('mongodb');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
-  apiKey: ""});
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 // ==== MongoDB Atlas setup ====
-const dbURI = '';
+const dbURI = process.env.MONGO_URI;
 const client = new MongoClient(dbURI);
 let db;
 
