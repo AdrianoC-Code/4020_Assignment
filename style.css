@@ -1,145 +1,241 @@
-/* ----------------------------------------------------
-   Primary Neutrals:
-   -- White:        #FFFFFF
-   -- Off-White:    #F5F5F5
-   -- Light Grey:   #E0E0E0
-   -- Mid Grey:     #7A7A7A   (body text)
-   -- Almost Black: #1A1A1A   (headers, strong text)
-   Accent:
-   -- Royal Blue:   #2D6CDF
------------------------------------------------------ */
-
-
-
 body {
-    background-color:#FFFFFF;
- }
+    background-color: #FFFFFF;
+    font-family: 'Inter', Verdana, sans-serif;
+    color: #686260; /* dark grey for body text */
+    line-height: 1.6;
+    margin: 0;
+}
 
+/* Header */
 .header {
-    position: relative;
+    background: linear-gradient(180deg, #E31837 0%, #AF0D1A 100%);
+    color: #FFFFFF;
+    text-align: center;
+    padding: 40px 20px;
+    font-family: 'Verdana', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.topnav {
+    display: flex;
+    justify-content: center;
     background-color: #F5F5F5;
-    padding: 30px;
-    text-align: center;
-    color: #1A1A1A;
-    font-family: Verdana, sans-serif;    
-  }
+    padding: 12px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
 
-  .topnav {
-    color:white;
-    font-family: Verdana, sans-serif;    
-  }
-  
-  .topnav a {
-    float: center; 
-    color: #1A1A1A;
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
+.topnav a {
+    color: #810001; /* York Red Dark */
     text-decoration: none;
-  }
-  
-  .topnav a:hover {
-    background-color: #E0E0E0;
-    color: #1A1A1A;
-  }
-  
-  .footer {
-    background-color:#1A1A1A ;
-    color: white;
-    padding: 10px;
-    text-align: center;
-  }
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s;
+}
 
-  #assistant-box {
+.topnav a:hover {
+    background-color: #AF0D1A; /* York Red Medium */
+    color: #FFFFFF;
+    border-radius: 6px;
+}
+
+.footer {
+    background-color: #686260; /* York Grey Dark */
+    color: #FFFFFF; /* White text for contrast */
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-family: 'Inter', Verdana, sans-serif;
+    border-top: 1px solid #D6CFCA; /* subtle separation from page content */
+}
+
+/* Assistant Box */
+#assistant-box {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 260px;
-    padding: 15px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 280px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    font-family: 'Inter', sans-serif;
 }
 
 #assistant-avatar {
-  width: 80px;
-  height: 80px;
+    width: 80px;
+    height: 80px;
+    border-radius: 30%;
 }
 
 #assistant-text {
-  font-size: 14px;
-  line-height: 1.35;
-  min-height: 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 40px;
 }
 
 .typing-cursor::after {
-  content: "|";
-  animation: blink 0.7s infinite;
+    content: "|";
+    animation: blink 0.7s infinite;
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
+/* Profiles / Cards */
 .profiles {
-    max-width: 900px;       
-    margin: 50px auto;      
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* subtle shadow for depth */
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-
 
 .profiles p {
-    line-height: 1.6;
     font-size: 16px;
-    margin-bottom: 30px;  
+    color: #686260;
+    margin-bottom: 25px;
+}
+
+.profile-card {
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
 .profile-card:hover {
-    background-color: #f0f4f8;
-    padding: 10px;
-    border-radius: 8px;
+    background-color: #F5F5F5; /* York Light Grey hover */
+    transform: translateY(-3px);
 }
 
-.intro-page section {
-    background-color: #fff;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 8000px;
-}
-
-.intro-page p {
-    line-height: 1.5;
-    font-size: 16px;
-}
-
-.research-page {
-    padding: 20px;
-    max-width: 8000px;
-    margin: 20px auto;
-}
-
+/* Sections */
+.intro-page section,
+.research-page,
 .results-page {
-    padding: 20px;
-    max-width: 8000px;
-    margin: 20px auto;
+    background-color: #FFFFFF;
+    padding: 25px;
+    margin: 25px auto;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
+.intro-page p,
+.research-page p,
+.results-page p {
+    font-size: 16px;
+    color: #686260;
+    line-height: 1.6;
+}
+
+/* Charts / Canvas */
 .results-page canvas {
     display: block;
     width: 100%;
     max-width: 800px;
     height: 300px;
     margin-bottom: 30px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #F5F5F5; /* York Light Grey background */
+    border: 1px solid #D6CFCA; /* York Pewter border */
     border-radius: 8px;
+}
+
+/* Buttons (if any) */
+button, .btn {
+    background-color: #E31837; /* York Red */
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #AF0D1A; /* York Red Medium */
+}
+
+/* Chat Container */
+.chat-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #FFFFFF; /* White */
+    border: 1px solid #D6CFCA; /* York Pewter */
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    font-family: 'Inter', Verdana, sans-serif;
+}
+
+.chat-container h3 {
+    color: #810001; /* York Red Dark */
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Message output area */
+.chat-output {
+    border: 1px solid #D6CFCA; /* York Pewter */
+    padding: 10px;
+    height: 180px;
+    overflow-y: auto;
+    border-radius: 10px;
+    background-color: #F5F5F5; /* York Light Grey */
+    margin-bottom: 15px;
+}
+
+/* Input group */
+.chat-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-group input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #D6CFCA; /* York Pewter */
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.chat-input-group input:focus {
+    outline: none;
+    border-color: #3AC2EF; /* York Bright Blue */
+    box-shadow: 0 0 5px rgba(58, 194, 239, 0.5);
+}
+
+/* Send button */
+.chat-input-group button {
+    background-color: #E31837; /* York Red */
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.chat-input-group button:hover {
+    background-color: #AF0D1A; /* York Red Medium */
+}
+
+.chat-title {
+    color: #810001; /* York Red Dark */
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: 'Verdana', sans-serif;
 }
